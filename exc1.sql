@@ -74,6 +74,7 @@ BEGIN
 						else IIF(@maxSalary>@bossSalary,cast(((@maxSalary*(@PERCENT+100))/100) as int),@bossSalary)
 					end
 					)
+					else SALARY
 				end
 	output inserted.NAME as 'NAME'
 		,deleted.SALARY as 'OldSalary'
