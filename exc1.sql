@@ -69,11 +69,6 @@ BEGIN
 	select @maxSalary = MAX(SALARY) from Employee where DEPARTMENT_ID = @ID and CHIEF_ID is not null
     update Employee
 	set SALARY = 
-				--закоменчено на случай вывода всех вотрудников
-				--case
-				--	when CHIEF_ID is not null then cast(((SALARY*(@PERCENT+100))/100) as int)
-				--	else IIF(@maxSalary>@bossSalary,cast(((@maxSalary*(@PERCENT+100))/100) as int),@bossSalary)
-				--end
 				case DEPARTMENT_ID
 					when @ID then
 					(
@@ -84,8 +79,10 @@ BEGIN
 					)
 					else SALARY
 				end
-	output inserted.NAME as 'NAME'
+	output inserted.ID
+		,inserted.NAME as 'NAME'
+		,inserted.DEPARTMENT_ID as 'DEPARTMENT_ID'
+		,inserted.CHIEF_ID as 'CHIEF_ID'
 		,deleted.SALARY as 'OldSalary'
 		,inserted.SALARY as 'NewSalary'
-	--where DEPARTMENT_ID = @ID	--закоменчено на случай вывода всех вотрудников
 END;
