@@ -34,6 +34,7 @@ console.log(arr[2]);
 		function processNumber(){
 			let inpStr = document.getElementById('number').value;
 			alert(isFinite(inpStr)?Math.pow(parseInt(inpStr),2):'Введите число');
+		}
         </script>
     </body>
 </html>
