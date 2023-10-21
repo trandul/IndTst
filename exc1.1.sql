@@ -5,11 +5,20 @@ left join Employee as b on b.ID = e.CHIEF_ID
 where e.SALARY<b.SALARY
 --4.2 Вывести список сотрудников, которые получают в отделе минимальную заработную плату в своем отделе.
 --уточнить, можно ли выводить саму ЗП, либо нужны только данные по сотрудникам
-select distinct d.NAME, 
-MIN(e.SALARY) as MinSalary
-from Employee as e
-left join Department as d on e.DEPARTMENT_ID = d.ID
-group by d.name
+select 
+eo.NAME as Employee
+,sal.NAME as Department
+,sal.MinSalary as Salary
+from
+(
+	select  d.NAME,
+	MIN(e.SALARY) as MinSalary
+	from Employee as e
+	left join Department as d on e.DEPARTMENT_ID = d.ID
+	group by d.NAME
+) as sal
+left join Employee as eo on eo.SALARY = sal.MinSalary
+
 --4.3 Вывести список ID отделов, количество сотрудников в которых не превышает трех человек.
 select d.ID
 from Department as d
