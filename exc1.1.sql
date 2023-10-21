@@ -91,7 +91,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 --вариант с функцией - нет проблем с возвратом данных
-CREATE OR REPLACE FUNCTION UPDATESALARYFORDEPARTMENTf (par_ID int, par_PERCENT int) RETURNS TABLE(f1 character varying, f2 integer, f3 integer)
+CREATE OR REPLACE FUNCTION UPDATESALARYFORDEPARTMENTf (par_ID int, par_PERCENT int) 
+RETURNS TABLE(EMP_ID integer, EMP_NAME character varying, DEPARTMENT integer, CHIEF integer, OLDSALARY integer, NEWSALARY integer)
 AS $$
 	declare var_bossSalary int; var_maxSalary int;
 BEGIN
@@ -117,9 +118,15 @@ BEGIN
 				end
 	returning id, salary	
 	)
-	
-	select e.NAME, e.SALARY, u.SALARY from Employee as e
+	select 
+		e.id
+		,e.name
+		,e.DEPARTMENT_ID
+		,e.CHIEF_ID
+		,e.SALARY
+		,u.SALARY
+	from Employee as e
 	left join updated as u on u.id = e.id;
-	
 END
 $$ LANGUAGE plpgsql;
+
